@@ -1,8 +1,0 @@
-import Link from "next/link";
-import {Home,ClipboardList,FileText,Building2,Users,Bell,Settings,ArrowRight} from "lucide-react";
-const clientLinks=[["نظرة عامة","/client",Home],["طلباتي ومعاملاتي","/client/transactions",ClipboardList],["المستندات","/client/documents",FileText],["المؤسسات","/client/institutions",Building2],["المستفيدون والعمال","/client/beneficiaries",Users],["الإشعارات","/client/notifications",Bell]];
-const adminLinks=[["نظرة عامة","/admin",Home],["العملاء","/admin/clients",Users],["الخدمات","/admin/services",Settings],["المعاملات والطلبات","/admin/transactions",ClipboardList]];
-export default function DashboardFrame({children,admin=false}:{children:React.ReactNode;admin?:boolean}){
- const links=admin?adminLinks:clientLinks;
- return <section className="dashboard"><div className="container"><Link href="/" className="back-link"><ArrowRight size={16}/> العودة للموقع</Link><div className="dash-layout"><aside className="sidebar"><h3>{admin?"لوحة الإدارة":"حساب العميل"}</h3><div className="side-links">{links.map(([name,href,Icon])=>{const I=Icon as any;return <Link href={href as string} key={href as string}><I size={17} style={{verticalAlign:"middle",marginLeft:8}}/>{name as string}</Link>})}</div><hr style={{border:0,borderTop:"1px solid #e2eaf0",margin:"18px 0"}}/><Link className="side-links" href="/services">استعراض الخدمات</Link></aside><div className="dash-main">{children}</div></div></div></section>
-}

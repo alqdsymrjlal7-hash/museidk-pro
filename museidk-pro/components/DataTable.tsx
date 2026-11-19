@@ -1,3 +1,0 @@
-export default function DataTable({headers,rows}:{headers:string[];rows:(string|number)[][]}) {
- return <div className="table-wrap"><table><thead><tr>{headers.map(h=><th key={h}>{h}</th>)}</tr></thead><tbody>{rows.length?rows.map((row,i)=><tr key={i}>{row.map((cell,j)=><td key={j}>{cell}</td>)}</tr>):<tr><td colSpan={headers.length}><div className="empty">لا توجد بيانات لعرضها حالياً.</div></td></tr>}</tbody></table></div>
-}

@@ -1,9 +1,0 @@
- "use client";
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
-import Notice from "@/components/Notice";
-export default function Login(){const [email,setEmail]=useState("");const [password,setPassword]=useState("");const [msg,setMsg]=useState("");const [busy,setBusy]=useState(false);const router=useRouter();
-async function submit(e:React.FormEvent){e.preventDefault();setMsg("");if(!supabase){setMsg("يجب إعداد مفاتيح قاعدة البيانات أولاً. راجع ملف الإعدادات.");return;}setBusy(true);const {error}=await supabase.auth.signInWithPassword({email,password});setBusy(false);if(error){setMsg(error.message);return;}const {data:{user}}=await supabase.auth.getUser();const {data:profile}=await supabase.from("profiles").select("role").eq("id",user?.id).maybeSingle();router.push(profile?.role==="admin"?"/admin":"/client");}
-return <><section className="page-head"><div className="container"><h1>تسجيل الدخول</h1><p>ادخل إلى حسابك لمتابعة خدماتك ومعاملاتك.</p></div></section><form className="form-wrap" onSubmit={submit}><h2>مرحباً بعودتك</h2>{msg&&<Notice kind="error">{msg}</Notice>}<div className="field"><label>البريد الإلكتروني</label><input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="name@example.com"/></div><div className="field"><label>كلمة المرور</label><input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="كلمة المرور"/></div><button className="btn-primary" disabled={busy}>{busy?"جارٍ الدخول...":"دخول إلى الحساب"}</button><p className="muted">ليس لديك حساب؟ <Link className="text-link" href="/register">إنشاء حساب جديد</Link></p><Link className="back-link" href="/">← العودة للرئيسية</Link></form></>}
